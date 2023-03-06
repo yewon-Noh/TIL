@@ -4,9 +4,14 @@
 
 1. [프레임워크란](#프레임워크란)
 2. [Spring 정의 및 장점](#Spring-정의-및-장점)
-3. [DI (Dependency Injection)](<#DI-(Dependency-Injection)>)
+3. [DI](#DI)
 4. [IoC](#IoC)
 5. [스프링 컨테이너](#스프링-컨테이너)
+6. [Bean 정의](#Bean-정의)
+    1. 생명주기
+    2. 스코프
+7. [싱글톤 vs 스프링 싱글톤](싱글톤-vs-스프링-싱글톤)
+
 
 ## 프레임워크란
 
@@ -127,7 +132,9 @@ Spring이 가진 특징들 덕분에 편하게 서버 개발이 가능하다.
 - [https://velog.io/@kai6666/Spring-Spring-AOP-개념](https://velog.io/@kai6666/Spring-Spring-AOP-%EA%B0%9C%EB%85%90)
 - [https://yoo11052.tistory.com/133](https://yoo11052.tistory.com/133)
 
-## DI(Dependency Injection, 의존성 주입)
+## DI
+
+_Dependency Injection, 의존성 주입_
 
 ### 의존성이란?
 
@@ -311,7 +318,9 @@ public class discountService{
 - [https://www.inflearn.com/course/스프링-핵심-원리-기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)
 - [https://jackjeong.tistory.com/41](https://jackjeong.tistory.com/41)
 
-## IoC(Inversion of Control, 제어의 역전)
+## IoC
+
+_Inversion of Control, 제어의 역전_
 
 ### IoC에 대해 설명해주세요.
 
@@ -418,3 +427,114 @@ ApplicationContext는 인터페이스로 XML을 기반으로 만들 수 있고, 
 - https://inf.run/Tfjy
 - https://live-for-myself.tistory.com/201
 - https://dev-aiden.com/spring/Spring-Container/
+
+## Bean 정의
+
+### Spring Bean이란 무엇인가요?
+
+스프링 IoC 컨테이너가 관리하는 자바 객체를 빈(Bean)이라고 한다.
+
+[IoC](#IoC)가 적용되면 사용자가 직접 객체를 생성하지 않고 스프링에 의해 관리당하는 자바 객체를 사용하게 된다.
+
+이렇게 스프링에 의하여 생성되고 관리되는 자바 객체를 의미한다.
+
+Spring Framework 에서는 Spring Bean 을 얻기 위하여 ApplicationContext.getBean() 와 같은 메소드를 사용하여 Spring 에서 직접 자바 객체를 얻어서 사용한다.
+
+### Spring Bean을 Spring IoC Container에 등록하는 방법에 대해 설명해주세요.
+
+크게 두 가지 방법이 존재한다.
+
+1. **애노테이션을 사용하는 방법**
+
+Bean을 등록하기 위해서는 @Component Annotation을 사용한다. @Component가 붙은 클래스를 스캔하여 빈으로 등록한다.
+
+@Component 뿐만 아니라 다음도 컴포넌트 스캔 대상으로 포함된다.
+
+> @Controller
+> - 스프링 MVC 컨트롤러로 인식
+>
+> @Service
+> - 비즈니스 로직에서 사용
+>
+> @Repository
+> - 스프링 데이터 접근 계층에서 사용
+> 
+> @Configuration
+> - 스프링 설정 정보에서 사용
+
+```java
+@Controller
+public class HelloController {    
+    @GetMapping("hello")
+    public String hello(){
+        return "hello";
+    }
+}
+```
+
+`@Controller` 애노테이션을 확인해보면 `@Component`이 있는 것을 확인할 수 있다.
+
+2. **빈 설정 파일에 직접 등록하는 방법**
+
+@Configuration을 이용하면 Spring Project 에서의 Configuration 역할을 하는 Class를 지정할 수 있다.
+
+해당 File 하위에 Bean 으로 등록하고자 하는 Class에 @Bean Annotation을 사용해주면 간단하게 Bean을 등록할 수 있다.
+
+```java
+@Configuration
+public class HelloConfiguration {
+    @Bean
+    public HelloController sampleController() {
+        return new SampleController;
+    }
+}
+```
+
+
+### 참고 링크
+
+- https://melonicedlatte.com/2021/07/11/232800.html
+
+
+## 싱글톤 vs 스프링 싱글톤
+
+### 싱글톤 패턴이란 무엇인가요?
+
+클래스의 인스턴스가 딱 1개만 생성되는 것을 보장하는 디자인 패턴이다.
+
+인스턴스가 필요할 때 똑같은 인스턴스를 만들지 않고 기존의 인스턴스를 가져와 활용한다.
+
+![img1 daumcdn](https://user-images.githubusercontent.com/80824750/223136481-6c399c1b-bbb3-4644-afbb-05dd7d7d746e.jpg)
+
+https://gem1n1.tistory.com/96
+
+싱글톤 패턴의 이점으로는 
+- 불필요한 메모리 낭비를 방지할 수 있다.
+- 공통된 객를 사용해야 하는 상황에서 일관성 있는 객체를 제공한다.(데이터베이스 연결 모듈, 디스크 연결, 캐시, 로그 기록 객체 등)
+
+### 자바 싱글톤과 스프링 싱글톤의 차이점에 대해 설명해주세요.
+
+1. **자바 싱글톤은 클래스로더에 의해 구현되고, 스프링 싱글톤은 스프링 컨테이너에 의해 구현된다.**
+
+	> **자바 클래스로더(Java ClassLoader)**
+	>
+	> 클래스 파일들을 찾아서 JVM 의 메모리에 탑재해주는 역할을 한다.
+
+	스프링 싱글톤은 클래스 자체에 의해서가 아니라, 스프링 컨테이너에 의해 구현된다.
+
+	스프링에 등록된 빈은 기본적으로 싱글톤으로 관리되어 스프링에 여러 번 빈을 요청하더라도 매번 동일한 객체를 돌려준다.
+
+2. **자바 싱글톤의 스코프는 코드 전체이고, 스프링 싱글톤의 스코프는 해당 컨테이너 내부이다.**
+
+### 자바 싱글톤에서는 (구현방법에 따라)Thread safety 하지 않다는 문제점이 있을 수도 있습니다. 그러면 스프링 싱글톤에서는 Thread safety 하나요?
+
+스프링 빈의 상태를 변경할 수 있게 만든다면, Thread safety 하지 않다.
+
+## 참고 링크
+
+- https://gem1n1.tistory.com/96
+- https://inpa.tistory.com/entry/GOF-💠-싱글톤Singleton-패턴-꼼꼼하게-알아보자
+- https://tecoble.techcourse.co.kr/post/2021-07-15-jvm-classloader/
+- https://alwayspr.tistory.com/11
+- https://dahye-jeong.gitbook.io/spring/spring/2020-04-09-bean-threadsafe
+
