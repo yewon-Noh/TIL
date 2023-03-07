@@ -7,11 +7,12 @@
 3. [DI](#DI)
 4. [IoC](#IoC)
 5. [스프링 컨테이너](#스프링-컨테이너)
-6. [Bean 정의](#빈(Bean)-정의)
-    1. [생명주기](#빈-생명주기)
+6. [Bean 정의](#Bean-정의)
+    1. [생명주기](#빈-생명주기에-대해-설명해주세요)
     2. 스코프
 7. [싱글톤 vs 스프링 싱글톤](#싱글톤-vs-스프링-싱글톤)
 
+<br/>
 
 ## 프레임워크란
 
@@ -60,6 +61,8 @@
 - [https://www.icia.co.kr/community/board/view/2/1/84](https://www.icia.co.kr/community/board/view/2/1/84)
 - [https://www.icia.co.kr/community/board/view/2/2/76](https://www.icia.co.kr/community/board/view/2/2/76)?
 - [https://steady-coding.tistory.com/457](https://steady-coding.tistory.com/457)
+
+<br/>
 
 ## Spring 정의 및 장점
 
@@ -131,6 +134,8 @@ Spring이 가진 특징들 덕분에 편하게 서버 개발이 가능하다.
 - [https://steady-coding.tistory.com/457](https://steady-coding.tistory.com/457)
 - [https://velog.io/@kai6666/Spring-Spring-AOP-개념](https://velog.io/@kai6666/Spring-Spring-AOP-%EA%B0%9C%EB%85%90)
 - [https://yoo11052.tistory.com/133](https://yoo11052.tistory.com/133)
+
+<br/>
 
 ## DI
 
@@ -318,6 +323,8 @@ public class discountService{
 - [https://www.inflearn.com/course/스프링-핵심-원리-기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)
 - [https://jackjeong.tistory.com/41](https://jackjeong.tistory.com/41)
 
+<br/>
+
 ## IoC
 
 _Inversion of Control, 제어의 역전_
@@ -369,6 +376,8 @@ https://dog-developers.tistory.com/12
 - https://live-for-myself.tistory.com/201
 - https://happy-playboy.tistory.com/entry/%EB%B0%B1%EC%88%98%EC%9D%98-%EC%8A%A4%ED%94%84%EB%A7%81-IoC%EC%99%80-DI%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C
 - https://dev-coco.tistory.com/80
+
+<br/>
 
 ## 스프링 컨테이너
 
@@ -428,7 +437,9 @@ ApplicationContext는 인터페이스로 XML을 기반으로 만들 수 있고, 
 - https://live-for-myself.tistory.com/201
 - https://dev-aiden.com/spring/Spring-Container/
 
-## 빈(Bean) 정의
+<br/>
+
+## Bean 정의
 
 ### Spring Bean이란 무엇인가요?
 
@@ -446,56 +457,49 @@ Spring Framework 에서는 Spring Bean 을 얻기 위하여 ApplicationContext.g
 
 1. **애노테이션을 사용하는 방법**
 
-Bean을 등록하기 위해서는 @Component Annotation을 사용한다. @Component가 붙은 클래스를 스캔하여 빈으로 등록한다.
+	Bean을 등록하기 위해서는 @Component Annotation을 사용한다. @Component가 붙은 클래스를 스캔하여 빈으로 등록한다.
 
-@Component 뿐만 아니라 다음도 컴포넌트 스캔 대상으로 포함된다.
+	@Component 뿐만 아니라 다음도 컴포넌트 스캔 대상으로 포함된다.
 
-> @Controller
-> - 스프링 MVC 컨트롤러로 인식
->
-> @Service
-> - 비즈니스 로직에서 사용
->
-> @Repository
-> - 스프링 데이터 접근 계층에서 사용
-> 
-> @Configuration
-> - 스프링 설정 정보에서 사용
+	> @Controller
+	> - 스프링 MVC 컨트롤러로 인식
+	>
+	> @Service
+	> - 비즈니스 로직에서 사용
+	>
+	> @Repository
+	> - 스프링 데이터 접근 계층에서 사용
+	> 
+	> @Configuration
+	> - 스프링 설정 정보에서 사용
 
-```java
-@Controller
-public class HelloController {    
-    @GetMapping("hello")
-    public String hello(){
-        return "hello";
-    }
-}
-```
+	```java
+	@Controller
+	public class HelloController {    
+	    @GetMapping("hello")
+	    public String hello(){
+		return "hello";
+	    }
+	}
+	```
 
-`@Controller` 애노테이션을 확인해보면 `@Component`이 있는 것을 확인할 수 있다.
+	`@Controller` 애노테이션을 확인해보면 `@Component`이 있는 것을 확인할 수 있다.
 
 2. **빈 설정 파일에 직접 등록하는 방법**
 
-@Configuration을 이용하면 Spring Project 에서의 Configuration 역할을 하는 Class를 지정할 수 있다.
+	@Configuration을 이용하면 Spring Project 에서의 Configuration 역할을 하는 Class를 지정할 수 있다.
 
-해당 File 하위에 Bean 으로 등록하고자 하는 Class에 @Bean Annotation을 사용해주면 간단하게 Bean을 등록할 수 있다.
+	해당 File 하위에 Bean 으로 등록하고자 하는 Class에 @Bean Annotation을 사용해주면 간단하게 Bean을 등록할 수 있다.
 
-```java
-@Configuration
-public class HelloConfiguration {
-    @Bean
-    public HelloController sampleController() {
-        return new SampleController;
-    }
-}
-```
-
-### 참고 링크
-
-- https://melonicedlatte.com/2021/07/11/232800.html
-
-
-## 빈 생명주기
+	```java
+	@Configuration
+	public class HelloConfiguration {
+	    @Bean
+	    public HelloController sampleController() {
+		return new SampleController;
+	    }
+	}
+	```
 
 ### 빈 생명주기에 대해 설명해주세요.
 
@@ -528,9 +532,11 @@ public class HelloConfiguration {
 
 ### 참고 링크
 
+- https://melonicedlatte.com/2021/07/11/232800.html
 - 인프런 김영한님 강의 : 스프링 핵심 원리 - 기본편
 - https://jeongkyun-it.tistory.com/209
 
+<br/>
 
 ## 싱글톤 vs 스프링 싱글톤
 
@@ -566,7 +572,7 @@ https://gem1n1.tistory.com/96
 
 스프링 빈의 상태를 변경할 수 있게 만든다면, Thread safety 하지 않다.
 
-## 참고 링크
+### 참고 링크
 
 - https://gem1n1.tistory.com/96
 - https://inpa.tistory.com/entry/GOF-💠-싱글톤Singleton-패턴-꼼꼼하게-알아보자
