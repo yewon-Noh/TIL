@@ -11,6 +11,8 @@
     1. [생명주기](#빈-생명주기에-대해-설명해주세요)
     2. 스코프
 7. [싱글톤 vs 스프링 싱글톤](#싱글톤-vs-스프링-싱글톤)
+8. [AOP](#AOP)
+9. [POJO](#POJO)
 
 <br/>
 
@@ -580,3 +582,170 @@ https://gem1n1.tistory.com/96
 - https://alwayspr.tistory.com/11
 - https://dahye-jeong.gitbook.io/spring/spring/2020-04-09-bean-threadsafe
 
+<br/>
+
+## AOP
+_Aspect Oriented Programming, 관점(관심) 지향 프로그래밍_
+
+### AOP는 무엇인가요? 
+
+AOP는 애플리케이션 전체에 걸쳐 사용되는 공통 기능을 재사용하도록 지원하는 것이다.
+
+대상을 바라보는 방향을 바꿔보자.
+
+각각의 서비스를 핵심 기능 관점에서 바라보았을 때는 Board, User, XXX 등 공통된 요소가 없다.
+
+하지만 부가기능 관점에서 본다면, 각 서비스의 수행 시간을 측정하는 before, after 메서드가 공통되는 것을 볼 수 있다.
+
+![img1 daumcdn](https://user-images.githubusercontent.com/80824750/223733985-b0d65bf5-1f0f-4a45-9b85-7e8bc3bcebd7.png)
+
+https://jojoldu.tistory.com/71
+
+즉 이렇게 부가기능 측면에서 보았을 때 공통된 요소를 추출하자는 것이다.
+
+이때 가로(횡단) 영역의 공통된 부분을 잘랐다고 하여, AOP를 크로스 컷팅(Cross-Cutting) 이라고 불리기도 한다.
+
+### AOP가 가지는 장점은 무엇이 있나요?
+
+1. 애플리케이션 전체에 흩어진 공통 기능이 하나의 장소에 관리된다.
+2. 다른 서비스 모듈들이 본인의 목적에만 충실하고 그외 사항들은 신경쓰지 않아도 된다.
+
+### AOP의 용어에 대해 아는대로 설명해주세요.
+
+1. **타겟(Target)**
+   
+   부가기능을 부여할 대상을 의미한다.
+
+2. **애스펙트(Aspect)**
+
+   부가기능 모듈을 애스펙트라고 부르며, 핵심기능에 부가되어 의미를 갖는 특별한 모듈이라 생각하면 된다.
+
+   어드바이스와 포인트컷을 함께 갖고 있다.
+
+3. **어드바이스(Advice)**
+
+   실질적으로 부가기능을 담은 구현체를 얘기한다.
+
+   어드아비스는 타겟 오브젝트에 종속되지 않기 때문에 순수하게 부가기능에만 집중할 수 있다.
+
+   어드바이스는 애스펙트가 '무엇'을 '언제'할지를 정의하고 있다.
+
+4. **포인트컷(PointCut)**
+
+   부가기능이 적용될 대상(메서드)를 선정하는 방법이다.
+
+   즉, 어드바이스를 적용할 조인포인트를 선별하는 기능을 정의한 모듈을 얘기한다.
+
+5. **조인포인트(JoinPoint)**
+
+   부가기능, 즉 어드바이스가 적용될 수 있는 위치이다.
+
+   다른 AOP 프레임워크와 달리 Spring에서는 메소드 조인포인트만 제공하고 있다.
+
+6. **프록시(Proxy)**
+
+   타겟을 감싸서 카겟의 요청을 대신 받아주는 랩핑(Wrapping) 오브젝트이다.
+
+   호출자 (클라이언트)에서 타겟을 호출하게 되면 타겟이 아닌 타겟을 감싸고 있는 프록시가 호출되어, 타겟 메소드 실행전에 선처리, 타겟 메소드 실행 후, 후처리를 실행시키도록 구성되어 있다.
+
+   ![img1 daumcdn](https://user-images.githubusercontent.com/80824750/223738302-30652fb3-258a-43f9-a1c9-7c6f9978e925.png)
+
+   https://jojoldu.tistory.com/71
+
+7. **인트로덕션(Introduction)**
+
+   타겟 클래스에 코드 변경없이 신규 메소드나 멤버변수를 추가하는 기능을 얘기한다.
+
+8. **위빙(Weaving)**
+
+   지정된 객체에 애스팩트를 적용해서 새로운 프록시 객체를 생성하는 과정을 얘기한다.
+
+### 참고 링크
+
+- https://jojoldu.tistory.com/71
+- https://engkimbs.tistory.com/746
+- https://devlog-wjdrbs96.tistory.com/398
+
+<br/>
+
+## POJO
+_Plain Old Java Object, 오래된 방식의 간단한 자바 오브젝트_
+
+### POJO란 무엇인가요?
+
+POJO란 특정 기술에 종속되지 않는 순수한 자바 객체를 의미한다.
+
+특정 기술을 사용하기 위해 특정 프레임워크를 의존하게 되면 그것은 POJO라고 할 수 없다.
+
+다음과 같이 기본적인 자바 기능인 getter와 setter만 가지고 있는 객체가 있다.
+
+이는 특정 기술에 종속되지 않은 순수 자바 객체이기 때문에 POJO라고 할 수 있다.
+
+```java
+public class User {
+	
+	private String name;
+   private int age;
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+   public int getAge() {
+		return age;
+	}
+	
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
+}
+```
+
+다음은 POJO가 아닌 몇가지 예시이다.
+
+```java
+// (1) 클래스 확장
+public class A extends javax.servlet.http.HttpServlet { ... }
+
+// (2) 인터페이스 구현
+puvlic class A implements javax.ejb.EntityBean { ... }
+
+// (3) Annotaion 포함
+@javax.persistence.Entity public class A { ... }
+```
+
+### 왜 POJO를 지향해야 하나요?
+
+특정 기술과 환경에 종속되어 의존하게 된 자바 코드는 가독성이 떨어져 유지보수에 어렵다.
+
+또한 특정 기술의 클래스를 상속받거나, 직접 의존하게 되어 확장성이 매우 떨어지는 단점이 있다.
+
+즉, 자바가 객체지향 설계의 장점들을 잃어버리게 되는 것이다.
+
+### POJO 프레임워크에 대해 설명해주세요.
+
+POJO 프레임워크란 POJO의 장점과 EJB에서 제공하는 엔터프라이즈 서비스와 기술을 그대로 사용할 수 있도록 도와주는 프레임워크이다.
+
+대표적으로 하이버네이트와 [스프링](#Spring-정의-및-장점)이 있다.
+
+> **하이버네이트(Hiberante)**
+> 
+> 자바 환경의 ORM 매핑 솔루션이다.
+> 
+> ORM은 도메인 모델 객체들을 관계형 데이터베이스 테이블로 매핑시키는 기술이다.
+> 
+> Hibernate는 자바 기반의 ORM 도구로서 어플리케이션 도메인 객체를 관계형 데이터베이스 테이블로 매핑시키는 프레임워크를 제공한다.
+
+### 참고 링크
+
+- https://siyoon210.tistory.com/120
+- https://yoo11052.tistory.com/133
+- https://dev-coco.tistory.com/82
+- https://escapefromcoding.tistory.com/332
+
+<br/>
