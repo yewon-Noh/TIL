@@ -565,7 +565,7 @@ Spring Framework 에서는 Spring Bean 을 얻기 위하여 ApplicationContext.g
 ### 참고 링크
 
 - https://melonicedlatte.com/2021/07/11/232800.html
-- 인프런 김영한님 강의 : 스프링 핵심 원리 - 기본편
+- [인프런 김영한님 강의 : 스프링 핵심 원리 - 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)
 - https://jeongkyun-it.tistory.com/209
 - https://mangkyu.tistory.com/117
 
@@ -716,7 +716,7 @@ POJO란 특정 기술에 종속되지 않는 순수한 자바 객체를 의미�
 public class User {
 	
 	private String name;
-   private int age;
+        private int age;
 	
 	public String getName() {
 		return name;
@@ -726,7 +726,7 @@ public class User {
 		this.name = name;
 	}
 
-   public int getAge() {
+        public int getAge() {
 		return age;
 	}
 	
@@ -744,7 +744,7 @@ public class User {
 public class A extends javax.servlet.http.HttpServlet { ... }
 
 // (2) 인터페이스 구현
-puvlic class A implements javax.ejb.EntityBean { ... }
+public class A implements javax.ejb.EntityBean { ... }
 
 // (3) Annotaion 포함
 @javax.persistence.Entity public class A { ... }
