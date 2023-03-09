@@ -7,6 +7,7 @@
 3. [버블정렬](#버블-정렬)
 4. [삽입정렬](#삽입-정렬)
 5. [객체정렬](#객체-정렬) : Comparable, Comparator
+6. [합병정렬](#합병-정렬)
 
 <br/>
 
@@ -235,6 +236,82 @@ public class Main {
                 else return o2.getX() - o1.getX();
             }
         });
+    }
+}
+```
+
+<br/>
+
+## 합병 정렬
+_merge sort_
+
+- 하나의 리스트를 두 개의 균등한 크기로 분할하고 분할된 부분 리스트를 정렬한 다음, 두 개의 정렬된 부분 리스트를 합하여 전체가 정렬된 리스트가 되게 하는 정렬 방법
+- 안정 정렬에 속하여, 분할 정복(divide and conquer) 알고리즘의 하나 이다.
+
+[과정]
+
+분할, 정복, 결합 3가지로 나누어진다.
+
+1. 분할(Divide) : 주어진 리스트를 같은 크기 2개의 부분 리스트로 나눈다.
+
+2. 정복(Conquer) : 부분 리스트를 정렬한다. 부분 리스트의 크기가 충분히 작지 않으면 순환 호출을 이용하여 다시 분할 정복 방법을 적용한다.
+   
+3. 결합(Combine) : 정렬된 부분 리스트들을 하나의 리스트로 합병한다.
+
+![merge-sort-concepts](https://user-images.githubusercontent.com/80824750/223942563-5125fc4c-6208-48e4-a2ee-11453ba5662b.png)
+
+https://gmlwjd9405.github.io/2018/05/08/algorithm-merge-sort.html
+
+[예시]
+
+```java
+static int[] arr = {5,3,4,2,1};  // 정렬할 리스트
+static int[] sorted = new int[5];
+
+public static void main(String[] args) {
+   mergeSort(arr, 0, arr.length-1);
+   for (int i: arr) System.out.println(i);
+}
+
+static void mergeSort(int[] arr, int left, int right) {
+    if (left<right) {
+        // Step 1. 분할
+        // - 중간 위치를 계산하여 리스트를 균등 분할
+        int mid = (left+right)/2;
+
+        // Step 2. 정복
+        // - 분할한 두 리스트를 각각 정렬
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid+1, right);
+
+        // Step 3. 결합
+        // - 정렬된 2개의 부분 리스트를 합병
+        merge(arr, left, mid, right);
+    }
+}
+
+static void merge(int[] arr, int left, int mid, int right) {
+    int l = left;      // 왼쪽 부분리스트 시작점
+    int r = mid+1;     // 오른쪽 부분리스트의 시작점
+    int idx = left;    // 채워넣을 배열의 인덱스
+
+    // 두 리스트를 비교하여 더 작은 값을 새로운 리스트(sorted)로 복사하며 정렬을 수행한다.
+    while (l<=mid && r<=right) {
+        if (arr[l]<=arr[r])
+            sorted[idx++] = arr[l++];
+        else
+            sorted[idx++] = arr[r++];
+    }
+    while (r<=right) {
+        sorted[idx++] = arr[r++];
+    }
+    while (l<=mid) {
+        sorted[idx++] = arr[l++];
+    }
+
+    // 새로운 리스트(sorted)를 원래의 리스트로 재복사한다.
+    for (int i = left; i<=right; i++) {
+        arr[i] = sorted[i];
     }
 }
 ```
