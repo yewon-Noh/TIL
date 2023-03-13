@@ -18,9 +18,10 @@
 - Arrays.sort() : (평균) O(nlogn), (최악) O(n^2)
 - Collections.sort() : O(nlog(n))
 
-![images_kimjy199_post_e34bfb25-049b-4cb7-94c1-60282f2b852d_image](https://user-images.githubusercontent.com/80824750/222670565-df10ad04-f8f3-4903-a1d1-fabb396b23be.png)
+<img src="https://user-images.githubusercontent.com/80824750/224590544-c9445f3f-967b-4a37-8d4c-b64e00f5493c.png" width="600" />
 
-https://velog.io/@kimjy199/백준-2751번.-수-정렬하기-2-Java
+https://gmlwjd9405.github.io/2018/05/10/algorithm-heap-sort.html
+
 
 <br/>
 
